@@ -9,14 +9,14 @@ def selection_sort(array)
 
   while minimum_index < array.count
     sort = false
-    iteration_times = array.count - minimum_index - 1
     minimum = array[minimum_index]
+    offset_index = minimum_index+1
 
-    iteration_times.times do |index|
-      offset_index = minimum_index+index+1
-      if minimum > array[offset_index]
-        minimum = array[offset_index]
-        @position = offset_index
+    array[offset_index..-1].each_with_index do |number,index|
+      if minimum > number
+        minimum = number
+        actual_index = index + offset_index
+        @position = actual_index
         sort = true
       end
     end
