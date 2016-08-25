@@ -31,6 +31,15 @@ class SinglyLinkedList
     @head = @head.next
     old_head = nil # This will deallocate the old head object
   end
+
+  def search_data(data)
+    node = @head
+    loop do
+      break puts 'Found!' if node.data == data
+      node = node.next
+      break puts 'Not found!' if node.nil?
+    end
+  end
 end
 
 node_1 = Node.new('node 1')
@@ -61,3 +70,6 @@ linked_list.delete_from_head
 puts "New head node: #{linked_list.head.data}"
 puts "Next node is: #{linked_list.head.next.data}"
 
+
+linked_list.search_data('blah') #= Not found!
+linked_list.search_data('node 4') #= Found!
