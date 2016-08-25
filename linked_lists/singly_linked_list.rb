@@ -21,8 +21,15 @@ class SinglyLinkedList
 
   def insert_node(data)
     node = Node.new(data)
-    @head.next = @head
+    old_head = @head
     @head = node
+    @head.next = old_head
+  end
+
+  def delete_from_head
+    old_head = @head
+    @head = @head.next
+    old_head = nil # This will deallocate the old head object
   end
 end
 
@@ -43,5 +50,14 @@ puts "Next after node 2 is: #{node_2.next.data}"
 puts "Next after node 3 is: #{node_3.next.data}"
 puts "Next after node 4 is: #{node_4.next.inspect}"
 
+puts '===== Adding Node ===='
 linked_list.insert_node('new head node')
 puts "New head node: #{linked_list.head.data}"
+puts "Next node is: #{linked_list.head.next.data}"
+
+puts '===== Deleting Node ===='
+puts "Current head node: #{linked_list.head.data}"
+linked_list.delete_from_head
+puts "New head node: #{linked_list.head.data}"
+puts "Next node is: #{linked_list.head.next.data}"
+
