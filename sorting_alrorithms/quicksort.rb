@@ -6,7 +6,7 @@ require 'pry'
 # Time complexity normally is O(n log n)
 
 # This does not call the method on both smaller and bigger arrays
-def my_quick_sort(array, pivot_index = 0)
+def my_quicksort(array, pivot_index = 0)
   iteration_count = array.count - pivot_index
   initial_pivot_index = pivot_index
 
@@ -21,10 +21,10 @@ def my_quick_sort(array, pivot_index = 0)
 
   p "Array: #{array}"
   return if array.count == pivot_index
-  quick_sort(array, pivot_index)
+  my_quicksort(array, pivot_index)
 end
 
-def quick_sort(array, from=0, to=nil)
+def quicksort(array, from=0, to=nil)
   if to == nil
     # Sort the whole array, by default
     to = array.count - 1
@@ -70,21 +70,21 @@ def quick_sort(array, from=0, to=nil)
   array[free] = pivot
 
   p array
-  quick_sort array, from, free - 1
-  quick_sort array, free + 1, to
+  quicksort array, from, free - 1
+  quicksort array, free + 1, to
 end
 
 p '=== My quicksort 1 ==='
 p "Beginning Array: #{[6,5,1,3,8,4,7,9,2]}"
-my_quick_sort([6,5,1,3,8,4,7,9,2]) #= [1,2,3,4,5,6,7,8,9]
+my_quicksort([6,5,1,3,8,4,7,9,2]) #= [1,2,3,4,5,6,7,8,9]
 
 # TODO fix when left of wall array is unsorted
 p '=== My quicksort 2 ==='
 p "Beginning Array: #{[2,3,1,4,5,6,7,8,9]}"
-my_quick_sort([2,3,1,4,5,6,7,8,9]) #= [1,2,3,4,5,6,7,8,9]
+my_quicksort([2,3,1,4,5,6,7,8,9]) #= [1,2,3,4,5,6,7,8,9]
 
 p '=== right quicksort 1 ==='
-quick_sort([6,5,1,3,8,4,7,9,2]) #= [1,2,3,4,5,6,7,8,9]
+quicksort([6,5,1,3,8,4,7,9,2]) #= [1,2,3,4,5,6,7,8,9]
 
 p '=== right quicksort 2 ==='
-quick_sort([2,3,1,4,5,6,7,8,9]) #= [1,2,3,4,5,6,7,8,9]
+quicksort([2,3,1,4,5,6,7,8,9]) #= [1,2,3,4,5,6,7,8,9]
