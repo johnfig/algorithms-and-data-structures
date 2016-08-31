@@ -4,7 +4,7 @@ require 'pry'
 # Nested array with hashed index and key value is a nested array
 # Time complexity of reads is O(n)
 
-class HashTable
+class OpenAddressingHashTable
   attr_accessor :hash_table
 
   def initialize
@@ -56,7 +56,7 @@ class HashTable
   end
 end
 
-hash = HashTable.new
+hash = OpenAddressingHashTable.new
 hash.insert('hello', 'world')
 hash.insert('why', 'me')
 p hash
