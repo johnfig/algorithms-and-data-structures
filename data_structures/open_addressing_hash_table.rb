@@ -49,9 +49,10 @@ class OpenAddressingHashTable
   def hashify(key)
     array = key.split('')
     count = array.count
-    array.each_with_object(0) do |char,object|
+    array.inject(0) do |object,char|
       object += char.ord ** count
       count -= 1
+      object
     end
   end
 end
