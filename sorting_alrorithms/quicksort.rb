@@ -25,7 +25,6 @@ def quicksort(array, from=0, to=nil)
   array[to] = array[pivot_index]
   array[pivot_index] = last
 
-  p array
   quicksort(array, from, pivot_index-1)
   quicksort(array, pivot_index+1, to)
   array
