@@ -1,90 +1,36 @@
 require 'pry'
 
-# This is like a card sorting problem
-# Every time you get a new card you put it in order
-# Time complexity in worst case is O(n^2) only when pivot is highest or lowest in array
-# Time complexity normally is O(n log n)
-
-# This does not call the method on both smaller and bigger arrays
-def my_quicksort(array, pivot_index = 0)
-  iteration_count = array.count - pivot_index
-  initial_pivot_index = pivot_index
-
-  iteration_count.times do |index|
-    item = array[index+initial_pivot_index]
-    if item <= array[-1]
-      array[index+initial_pivot_index] = array[pivot_index]
-      array[pivot_index] = item
-      pivot_index += 1
-    end
-  end
-
-  p "Array: #{array}"
-  return if array.count == pivot_index
-  my_quicksort(array, pivot_index)
-end
-
 def quicksort(array, from=0, to=nil)
-  if to == nil
-    # Sort the whole array, by default
+  if to.nil?
     to = array.count - 1
   end
 
-  if from >= to
-    # Done sorting
-    return
-  end
+  return if from >= to
 
-  # Take a pivot value, at the far left
-  pivot = array[from]
-
-  # Min and Max pointers
-  min = from
-  max = to
-
-  # Current free slot
-  free = min
-
-  while min < max
-    if free == min # Evaluate array[max]
-      if array[max] <= pivot # Smaller than pivot, must move
-        array[free] = array[max]
-        min += 1
-        free = max
-      else
-        max -= 1
-      end
-    elsif free == max # Evaluate array[min]
-      if array[min] >= pivot # Bigger than pivot, must move
-        array[free] = array[min]
-        max -= 1
-        free = min
-      else
-        min += 1
-      end
-    else
-      raise "Inconsistent state"
+  pivot_index = from
+  index = from
+  array[from..to-1].each do |number|
+    if number < array[to] && pivot_index == index
+      pivot_index += 1
+    elsif number < array[to]
+      array[index] = array[pivot_index]
+      array[pivot_index] = number
+      pivot_index += 1
     end
+    index += 1
   end
 
-  array[free] = pivot
+  # swap pivot with pivot_index value
+  last = array[to]
+  array[to] = array[pivot_index]
+  array[pivot_index] = last
 
-  p array
-  quicksort array, from, free - 1
-  quicksort array, free + 1, to
+  quicksort(array, from, pivot_index-1)
+  quicksort(array, pivot_index+1, to)
+  array
 end
 
-p '=== My quicksort 1 ==='
-p "Beginning Array: #{[6,5,1,3,8,4,7,9,2]}"
-my_quicksort([6,5,1,3,8,4,7,9,2]) #= [1,2,3,4,5,6,7,8,9]
-
-# TODO fix when left of wall array is unsorted
-p '=== My quicksort 2 ==='
-p "Beginning Array: #{[2,3,1,4,5,6,7,8,9]}"
-my_quicksort([2,3,1,4,5,6,7,8,9]) #= [1,2,3,4,5,6,7,8,9]
-
-p '=== right quicksort 1 ==='
-quicksort([6,5,1,3,8,4,7,9,2]) #= [1,2,3,4,5,6,7,8,9]
-
-p '=== right quicksort 2 ==='
-quicksort([2,3,1,4,5,6,7,8,9]) #= [1,2,3,4,5,6,7,8,9]
+array = [9,8,7,6,5,4,3,2,1].shuffle
+p "Array before #{array}"
+array = quicksort(array)
+p "Array after #{array}"

@@ -1,39 +1,34 @@
-# Mergesort breaks everything down into 1 item and then merges them together to
-# form a sorted array
-# Time complexity of this algorithm is O(n log n)
+require 'pry'
 
 def mergesort(array)
-  if array.count <= 1
-    # Array of length 1 or less is always sorted
-    return array
-  end
+  return array if array.count <= 1
+  array = divide(array)
+  conquer(array[0], array[1])
+end
 
-  # Apply "Divide & Conquer" strategy
+def divide(array)
+  offset = array.count/2
+  part_a = mergesort array[0..offset-1]
+  part_b = mergesort array[offset..-1]
+  [part_a, part_b]
+end
 
-  # 1. Divide
-  mid = array.count / 2
-  part_a = mergesort array.slice(0, mid)
-  part_b = mergesort array.slice(mid, array.count - mid)
-
-  # 2. Conquer
+def conquer(part_a, part_b)
   array = []
+
   offset_a = 0
   offset_b = 0
-  while offset_a < part_a.count && offset_b < part_b.count
-    a = part_a[offset_a]
-    b = part_b[offset_b]
 
-    # Take the smallest of the two, and push it on our array
-    if a <= b
-      array << a
+  while offset_a < part_a.count && offset_b < part_b.count
+    if part_a[offset_a] <= part_b[offset_b]
+      array << part_a[offset_a]
       offset_a += 1
     else
-      array << b
+      array << part_b[offset_b]
       offset_b += 1
     end
   end
 
-  # There is at least one element left in either part_a or part_b (not both)
   while offset_a < part_a.count
     array << part_a[offset_a]
     offset_a += 1
@@ -44,14 +39,17 @@ def mergesort(array)
     offset_b += 1
   end
 
-  return array
+  array
 end
 
-array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].shuffle
-# Mergesort operates in new array
-# So we need to reassign
+array = [3,1,4,2]
 p "Beginning Array: #{array}"
 puts '=== implementing mergesort ==='
 array = mergesort array
 p "Ending Array: #{array}"
 
+array = [5,3,1,4,2]
+p "Beginning Array: #{array}"
+puts '=== implementing mergesort ==='
+array = mergesort array
+p "Ending Array: #{array}"
